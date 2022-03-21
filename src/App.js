@@ -7,49 +7,70 @@ import Header from "./Components/Header/Header";
 import List from "./Components/List/List";
 import Map from "./Components/Map/Map";
 
-function App() {
+// import LeafletMap from "./Components/LeafletMap/LeafletMap";
+
+const App = () => {
   const [places, setPlaces] = useState([]);
-  const [coordinates, setCoordinates] = useState({});
+  const [coords, setCoords] = useState({});
   const [bounds, setBounds] = useState(null);
+  // set default coords for leaflet map
+  // const [coords, setCoords] = useState({ lat: 51.507351, lng: -0.127758 });
+
+  // set initial bounds for leaflet map
+  // const [bounds, setBounds] = useState({
+  //   ne: { lat: 52.531260397544685, lng: 13.438213391784672 },
+  //   sw: { lat: 52.50875071915752, lng: 13.371694608215336 },
+  // });
 
   useEffect(() => {
-    // Run first time
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        setCoordinates({ lat: latitude, lng: longitude });
-      }
-    );
+    const success = (position) => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      setCoords({ lat: latitude, lng: longitude });
+    };
+    const error = () => {
+      console.log("Unable to retrieve your location");
+    };
+    navigator.geolocation.getCurrentPosition(success, error);
   }, []);
 
   useEffect(() => {
-    // getPlacesData(bounds.sw, bounds.ne).then((data) => {
-    getPlacesData().then((data) => {
-      console.log(
-        "OUTPUT ~ file: App.js ~ line 17 ~ getPlacesData ~ data",
-        data
-      );
+    try {
+      getPlacesData(bounds.ne, bounds.sw).then((data) => {
+        setPlaces(data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [coords, bounds]);
 
-      setPlaces(data);
-    });
-  }, [bounds, coordinates]);
   return (
     <>
       <CssBaseline />
       <Header />
       <Grid container spacing={3} style={{ width: "100%" }}>
         <Grid item xs={12} md={4}>
-          <List />
+          <List places={places} />
         </Grid>
         <Grid item xs={12} md={8}>
-          <Map
-            setCoordinates={setCoordinates}
-            setBounds={setBounds}
-            coordinates={coordinates}
-          />
+          <Map setCoords={setCoords} setBounds={setBounds} coords={coords} />
         </Grid>
+
+        {/* this code for leaflet react map  */}
+        {/* <Grid item xs={12} md={4}>
+          <List places={places} />
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <LeafletMap
+            setCoords={setCoords}
+            setBounds={setBounds}
+            coords={coords}
+            // bounds={bounds}
+          />
+        </Grid> */}
       </Grid>
     </>
   );
-}
+};
 
 export default App;

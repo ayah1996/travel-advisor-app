@@ -14,9 +14,15 @@ import PlaceDetails from "../PlaceDetails/PlaceDetails";
 import useStyles from "./List.styles";
 import Context from "../../Context/Context";
 
-const List = () => {
-  const { childClicked, isLoading, type, setType, rating, setRating, places } =
-    useContext(Context);
+const List = ({
+  places,
+  childClicked,
+  isLoading,
+  type,
+  setType,
+  rating,
+  setRating,
+}) => {
   const classes = useStyles();
 
   const [elRefs, setElRefs] = useState([]);

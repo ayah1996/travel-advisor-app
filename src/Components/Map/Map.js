@@ -7,9 +7,14 @@ import Rating from "@material-ui/lab/Rating";
 import mapStyles from "./mapStyles";
 import Context from "../../Context/Context";
 
-const Map = () => {
-  const { setCoords, setBounds, coords, places, setChildClicked, weatherData } =
-    useContext(Context);
+const Map = ({
+  setCoords,
+  setBounds,
+  coords,
+  places,
+  setChildClicked,
+  weatherData,
+}) => {
   const classes = useStyles();
   const isDesktop = useMediaQuery("(min-width:600px)");
 

@@ -5,7 +5,6 @@ import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import useStyles from "./Map.styles";
 import Rating from "@material-ui/lab/Rating";
 import mapStyles from "./mapStyles";
-import { v4 as uuidv4 } from "uuid";
 
 const Map = ({
   setCoords,
@@ -44,7 +43,7 @@ const Map = ({
             className={classes.markerContainer}
             lat={Number(place.latitude)}
             lng={Number(place.longitude)}
-            key={uuidv4()}
+            key={i}
           >
             {!isDesktop ? (
               <LocationOnOutlinedIcon color="primary" fontSize="large" />
@@ -74,7 +73,7 @@ const Map = ({
 
         {weatherData?.list?.length &&
           weatherData.list.map((data, i) => (
-            <div key={uuidv4()} lat={data.coord.lat} lng={data.coord.lon}>
+            <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
               <img
                 src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
                 alt="weather icon"

@@ -42,6 +42,7 @@ const PlaceDetails = ({ place, selected, refProp }) => {
             out of {place.num_reviews} reviews
           </Typography>
         </Box>
+        <Typography variant="subtitle2">{place.rating}</Typography>
         <Box display="flex" justifyContent="space-between">
           <Typography variant="subtitle1">Price</Typography>
           <Typography gutterBottom variant="subtitle1">

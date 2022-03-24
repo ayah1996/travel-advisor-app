@@ -13,7 +13,6 @@ import PlaceDetails from "../PlaceDetails/PlaceDetails";
 
 import useStyles from "./List.styles";
 import Context from "../../Context/Context";
-import { v4 as uuidv4 } from "uuid";
 
 const List = () => {
   const { childClicked, isLoading, type, setType, rating, setRating, places } =
@@ -61,9 +60,9 @@ const List = () => {
 
           <Grid container spacing={2} className={classes.list}>
             {places?.map((place, i) => (
-              <Grid ref={elRefs[i]} key={uuidv4()} item xs={12}>
+              <Grid ref={elRefs[i]} key={i} item xs={12}>
                 <PlaceDetails
-                  key={uuidv4()}
+                  key={i}
                   place={place}
                   selected={Number(childClicked) === i}
                   refProp={elRefs[i]}

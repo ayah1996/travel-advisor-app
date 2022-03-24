@@ -6,6 +6,7 @@ import { getPlacesData, getWeatherData } from "./api/api";
 import Header from "./Components/Header/Header";
 import List from "./Components/List/List";
 import Map from "./Components/Map/Map";
+import Context from "./Context/Context";
 
 const App = () => {
   const [places, setPlaces] = useState([]);
@@ -57,33 +58,35 @@ const App = () => {
   }, [bounds, type]);
 
   return (
-    <>
-      <CssBaseline />
-      <Header setCoords={setCoords} />
-      <Grid container spacing={3} style={{ width: "100%" }}>
-        <Grid item xs={12} md={4}>
-          <List
-            places={filteredPlaces.length ? filteredPlaces : places}
-            childClicked={childClicked}
-            isLoading={isLoading}
-            type={type}
-            setType={setType}
-            rating={rating}
-            setRating={setRating}
-          />
+    <Context.Provider
+      value={{
+        setCoords,
+        setBounds,
+        coords,
+        setChildClicked,
+        weatherData,
+        childClicked,
+        isLoading,
+        type,
+        setType,
+        rating,
+        setRating,
+        places: filteredPlaces.length ? filteredPlaces : places,
+      }}
+    >
+      <>
+        <CssBaseline />
+        <Header />
+        <Grid container spacing={3} style={{ width: "100%" }}>
+          <Grid item xs={12} md={4}>
+            <List />
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Map />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={8}>
-          <Map
-            setCoords={setCoords}
-            setBounds={setBounds}
-            coords={coords}
-            places={filteredPlaces.length ? filteredPlaces : places}
-            setChildClicked={setChildClicked}
-            weatherData={weatherData}
-          />
-        </Grid>
-      </Grid>
-    </>
+      </>
+    </Context.Provider>
   );
 };
 

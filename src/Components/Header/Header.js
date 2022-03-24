@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AppBar, Toolbar, Typography, InputBase, Box } from "@material-ui/core";
 import { Autocomplete } from "@react-google-maps/api";
 import SearchIcon from "@material-ui/icons/Search";
 
 import useStyles from "./Header.styles";
+import Context from "../../Context/Context";
 
-const Header = ({ setCoords }) => {
+const Header = () => {
+  const { setCoords } = useContext(Context);
+
   const classes = useStyles();
 
   const [autocomplete, setAutocomplete] = useState(null);

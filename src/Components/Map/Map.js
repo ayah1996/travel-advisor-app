@@ -1,19 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import GoogleMapReact from "google-map-react";
 import { Paper, Typography, useMediaQuery } from "@material-ui/core";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import useStyles from "./Map.styles";
 import Rating from "@material-ui/lab/Rating";
 import mapStyles from "./mapStyles";
+import Context from "../../Context/Context";
+import { v4 as uuidv4 } from "uuid";
 
-const Map = ({
-  setCoords,
-  setBounds,
-  coords,
-  places,
-  setChildClicked,
-  weatherData,
-}) => {
+const Map = () => {
+  const { setCoords, setBounds, coords, places, setChildClicked, weatherData } =
+    useContext(Context);
   const classes = useStyles();
   const isDesktop = useMediaQuery("(min-width:600px)");
 
@@ -23,11 +20,12 @@ const Map = ({
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
         defaultCenter={{ lat: 51.507351, lng: -0.127758 }}
         center={coords}
-        defaultZoom={14}
+        defaultZoom={13}
         margin={[50, 50, 50, 50]}
         options={{
           disableDefaultUI: true,
           zoomControl: true,
+          gestureHandling: "cooperative",
           styles: mapStyles,
         }}
         onChange={(e) => {
@@ -43,7 +41,7 @@ const Map = ({
             className={classes.markerContainer}
             lat={Number(place.latitude)}
             lng={Number(place.longitude)}
-            ley={i}
+            key={uuidv4()}
           >
             {!isDesktop ? (
               <LocationOnOutlinedIcon color="primary" fontSize="large" />
@@ -73,7 +71,7 @@ const Map = ({
 
         {weatherData?.list?.length &&
           weatherData.list.map((data, i) => (
-            <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
+            <div key={uuidv4()} lat={data.coord.lat} lng={data.coord.lon}>
               <img
                 src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
                 alt="weather icon"
